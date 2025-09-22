@@ -1,12 +1,90 @@
 ﻿<Window x:Class="ISIP422_Pluzhnikov_Egunov.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ISIP422_Pluzhnikov_Egunov"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Учёт товаров в магазине" Height="600" Width="900"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Учёт товаров в магазине" 
+                   FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+        <!-- Панель поиска -->
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Поиск:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox x:Name="SearchTextBox" Width="200" TextChanged="SearchTextBox_TextChanged"/>
+            <ComboBox x:Name="SearchCategoryComboBox" Width="150" Margin="10,0,0,0"
+                      SelectionChanged="SearchCategoryComboBox_SelectionChanged">
+                <ComboBoxItem Content="Все категории"/>
+            </ComboBox>
+        </StackPanel>
+
+        <!-- Список товаров -->
+        <DataGrid x:Name="ProductsDataGrid" Grid.Row="2" Grid.Column="0" 
+                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                  SelectionChanged="ProductsDataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Код" Binding="{Binding Code}" Width="80"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:C}}" Width="80"/>
+                <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="80"/>
+                <DataGridCheckBoxColumn Header="В наличии" Binding="{Binding IsAvailable}" Width="80"/>
+                <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Панель управления -->
+        <StackPanel Grid.Row="2" Grid.Column="1" Margin="10,0,0,0" Width="150">
+            <Button Content="Добавить товар" Click="AddProduct_Click" Margin="0,0,0,5" Height="30"/>
+            <Button Content="Удалить товар" Click="DeleteProduct_Click" Margin="0,0,0,5" Height="30"/>
+            <Button Content="Заказать поставку" Click="OrderSupply_Click" Margin="0,0,0,5" Height="30"/>
+            <Button Content="Продать товар" Click="SellProduct_Click" Margin="0,0,0,5" Height="30"/>
+            <Button Content="Очистить поиск" Click="ClearSearch_Click" Margin="0,0,0,5" Height="30"/>
+        </StackPanel>
+
+        <!-- Информация о выбранном товаре -->
+        <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Информация о товаре" Margin="0,10,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Код:" Margin="5" VerticalAlignment="Center"/>
+                <TextBlock x:Name="SelectedCodeText" Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="Название:" Margin="5" VerticalAlignment="Center"/>
+                <TextBlock x:Name="SelectedNameText" Grid.Row="0" Grid.Column="3" Margin="5" VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Цена:" Margin="5" VerticalAlignment="Center"/>
+                <TextBlock x:Name="SelectedPriceText" Grid.Row="1" Grid.Column="1" Margin="5" VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="Количество:" Margin="5" VerticalAlignment="Center"/>
+                <TextBlock x:Name="SelectedQuantityText" Grid.Row="1" Grid.Column="3" Margin="5" VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Категория:" Margin="5" VerticalAlignment="Center"/>
+                <TextBlock x:Name="SelectedCategoryText" Grid.Row="2" Grid.Column="1" Margin="5" VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="2" Text="Статус:" Margin="5" VerticalAlignment="Center"/>
+                <TextBlock x:Name="SelectedStatusText" Grid.Row="2" Grid.Column="3" Margin="5" VerticalAlignment="Center"/>
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>
